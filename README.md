@@ -29,17 +29,19 @@ no una API JSON reutilizable directamente:
 chequear el sitio (evita golpear Renfe innecesariamente y evita
 duplicar la alarma).
 
-## Tarea programada
+## Cuándo corre
 
-`RenfeOurenseSarriaCheck` (Task Scheduler de Windows) corre
-`run_check.bat` cada 6 horas durante 45 días desde el 31/7/2026 (se
-autodesactiva sola después de mediados de septiembre). Para pausarla:
+Corre por dos vías en paralelo, compartiendo estado en Supabase
+(`automation_state`) para no duplicar la notificación:
 
-```powershell
-Disable-ScheduledTask -TaskName "RenfeOurenseSarriaCheck"
-```
-
-Log local: `check.log`.
+- **Local**: Tarea Programada `RenfeOurenseSarriaCheck` (Task Scheduler de
+  Windows), cada 6 horas durante 45 días desde el 31/7/2026 (se
+  autodesactiva sola). Pausar: `Disable-ScheduledTask -TaskName
+  "RenfeOurenseSarriaCheck"`. Log local: `check.log`.
+- **Cloud**: GitHub Actions (`.github/workflows/check.yml`), cron cada 6
+  horas — no depende de que la PC esté prendida. Probado en vivo: Renfe no
+  bloquea las IPs de GitHub Actions. Pausar: deshabilitar el workflow en
+  GitHub o borrar/desactivar el cron.
 
 ## Credenciales
 

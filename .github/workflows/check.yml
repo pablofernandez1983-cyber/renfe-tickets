@@ -1,4 +1,5 @@
 name: Chequear tren Ourense-Sarria
+# workflow registrado 2026-07-31
 
 on:
   schedule:
